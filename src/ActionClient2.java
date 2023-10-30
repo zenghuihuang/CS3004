@@ -39,8 +39,8 @@ public class ActionClient2 {
             fromUser = stdIn.readLine();
             if (fromUser != null) {
                 String message ="";
-                switch (fromUser){
-                    case "New":
+                switch (fromUser.toLowerCase()){
+                    case "new":
                         System.out.println("New car arriving");
                         EntB_queue+=1;
                         System.out.println("queue: "+EntB_queue );
@@ -48,7 +48,7 @@ public class ActionClient2 {
                         System.out.println(ActionClientID + " sending " + message + " to ActionServer");
                         out.println(message);
                         break;
-                    case "Enter":
+                    case "enter":
                         EntB_queue-=1;
                         System.out.println(ActionClientID + " sending " + fromUser + " to ActionServer");
                         System.out.println("queue: "+EntB_queue );
@@ -57,8 +57,6 @@ public class ActionClient2 {
                         out.println("Error: something wrong happened!");
 
                 }
-
-
             }
             fromServer = in.readLine();
             System.out.println(ActionClientID + " received " + fromServer + " from ActionServer");

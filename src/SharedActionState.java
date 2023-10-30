@@ -58,8 +58,12 @@ public class SharedActionState {
 			case Check_space:
 				if (theInput.equalsIgnoreCase("Is there a space?")) {
 					//Correct request
-					if (myThreadName.equals("ActionServerThread1") ||myThreadName.equals("ActionServerThread2") ) {
-						theOutput = "Check space completed.  Shared Variable now = " + mySharedVariable;
+					if (myThreadName.equals("ActionServerThread1") || myThreadName.equals("ActionServerThread2") ) {
+						if(mySharedVariable>0)
+						   theOutput = "Check space completed. Yes, there is a space. Shared Variable now = " + mySharedVariable;
+						else{
+							theOutput = "Check space completed. Sorry, there is " + mySharedVariable+" space available";
+						}
 					}
 					break;
 				}
