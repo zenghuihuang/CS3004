@@ -1,113 +1,88 @@
 import java.net.*;
 import java.io.*;
 
-public class SharedActionState{
-	
+public class SharedActionState {
+	private static final int Check_space = 0;
+	private static final int Add_car = 1;
+	private static final int Remove_car = 2;
+	private int state = Check_space;
 	private SharedActionState mySharedObj;
 	private String myThreadName;
 	private int mySharedVariable;
-	private boolean accessing=false; // true a thread has a lock, false otherwise
-	private int threadsWaiting=0; // number of waiting writers
+	private boolean accessing = false; // true a thread has a lock, false otherwise
+	private int threadsWaiting = 0; // number of waiting writers
+
+	private int EntB_queue = 0; // number of vehicles in queue at the entrance B
 
 // Constructor	
-	
+
 	SharedActionState(int SharedVariable) {
 		mySharedVariable = SharedVariable;
 	}
 
 //Attempt to aquire a lock
-	
-	  public synchronized void acquireLock() throws InterruptedException{
-	        Thread me = Thread.currentThread(); // get a ref to the current thread
-	        System.out.println(me.getName()+" is attempting to acquire a lock!");	
-	        ++threadsWaiting;
-		    while (accessing) {  // while someone else is accessing or threadsWaiting > 0
-		      System.out.println(me.getName()+" waiting to get a lock as someone else is accessing...");
-		      //wait for the lock to be released - see releaseLock() below
-		      wait();
-		    }
-		    // nobody has got a lock so get one
-		    --threadsWaiting;
-		    accessing = true;
-		    System.out.println(me.getName()+" got a lock!"); 
-		  }
 
-		  // Releases a lock to when a thread is finished
-		  
-		  public synchronized void releaseLock() {
-			  //release the lock and tell everyone
-		      accessing = false;
-		      notifyAll();
-		      Thread me = Thread.currentThread(); // get a ref to the current thread
-		      System.out.println(me.getName()+" released a lock!");
-		  }
-	
-	
-    /* The processInput method */
+	public synchronized void acquireLock() throws InterruptedException {
+		Thread me = Thread.currentThread(); // get a ref to the current thread
+		System.out.println(me.getName() + " is attempting to acquire a lock!");
+		++threadsWaiting;
+		while (accessing) {  // while someone else is accessing or threadsWaiting > 0
+			System.out.println(me.getName() + " waiting to get a lock as someone else is accessing...");
+			//wait for the lock to be released - see releaseLock() below
+			wait();
+		}
+		// nobody has got a lock so get one
+		--threadsWaiting;
+		accessing = true;
+		System.out.println(me.getName() + " got a lock!");
+	}
+
+	// Releases a lock to when a thread is finished
+
+	public synchronized void releaseLock() {
+		//release the lock and tell everyone
+		accessing = false;
+		notifyAll();
+		Thread me = Thread.currentThread(); // get a ref to the current thread
+		System.out.println(me.getName() + " released a lock!");
+	}
+
+
+	/* The processInput method */
 
 	public synchronized String processInput(String myThreadName, String theInput) {
-    		System.out.println(myThreadName + " received "+ theInput);
-    		String theOutput = null;
-    		// Check what the client said
-    		if (theInput.equalsIgnoreCase("Do my action!")) {
-    			//Correct request
-    			if (myThreadName.equals("ActionServerThread1")) {
-    				/*  Add 20 to the variable
-    					multiply it by 5
-    					divide by 3.
-    				 */
-    				mySharedVariable = mySharedVariable + 20;
-       				mySharedVariable = mySharedVariable * 5;
-       				mySharedVariable = mySharedVariable / 3;
-   				System.out.println(myThreadName + " made the SharedVariable " + mySharedVariable);
-    				theOutput = "Do action completed.  Shared Variable now = " + mySharedVariable;
-    			}
-    			else if (myThreadName.equals("ActionServerThread2")) {
-    				/*	Subtract 5 from the variable
-    					Multiply it by 10 
-    					Divide by 2.5
-    					*/
-       				mySharedVariable = mySharedVariable - 5;
-       				mySharedVariable = mySharedVariable * 10;
-    					
-    				System.out.println(myThreadName + " made the SharedVariable " + mySharedVariable);
-    				theOutput = "Do action completed.  Shared Variable now = " + mySharedVariable;
+		System.out.println(myThreadName + " received " + theInput);
+		String theOutput = null;
+		// Check what the client said
+		switch (state) {
+			case Check_space:
+				if (theInput.equalsIgnoreCase("Is there a space?")) {
+					//Correct request
+					if (myThreadName.equals("ActionServerThread1") ||myThreadName.equals("ActionServerThread2") ) {
+						theOutput = "Check space completed.  Shared Variable now = " + mySharedVariable;
+					}
+					break;
+				}
+				case Add_car:
+					if (theInput.equalsIgnoreCase("Enter")) {
+						if (myThreadName.equals("ActionServerThread1") || myThreadName.equals("ActionServerThread2")) {
+							if (mySharedVariable >0) {
+								mySharedVariable -= 1;
+								System.out.println(myThreadName + " made the SharedVariable " + mySharedVariable);
+								theOutput = "Car park action completed.   Car spaces available now = " + mySharedVariable;
+								}else{
+								System.out.println(myThreadName + ": Impossible to enter the car park.");
+								theOutput = "Sorry, the car park is full at the moment. Car spaces available now = " + mySharedVariable;
+							}
+							}
+						}
+						break;
+				}
 
-    			}
-       			else if (myThreadName.equals("ActionServerThread3")) {
-       				/*	Subtract 50
-						Divide by 2
-						Multiply by 33
-       				 */
-       				mySharedVariable = mySharedVariable - 50;
-       				mySharedVariable = mySharedVariable / 2;
-       				mySharedVariable = mySharedVariable * 33;
- 
-       				System.out.println(myThreadName + " made the SharedVariable " + mySharedVariable);
-    				theOutput = "Do action completed.  Shared Variable now = " + mySharedVariable;
 
-       			}
-       			else if (myThreadName.equals("ActionServerThread4")) {
-    				/*	Multiply by 20
-						Divide by 10
-						Subtract 1
-    				 */
-       				mySharedVariable = mySharedVariable * 20;
-       				mySharedVariable = mySharedVariable / 10;
-       				mySharedVariable = mySharedVariable - 1;
-    				System.out.println(myThreadName + " made the SharedVariable " + mySharedVariable);
-    				theOutput = "Do action completed.  Shared Variable now = " + mySharedVariable;
-       			}
-       			else {System.out.println("Error - thread call not recognised.");}
-    		}
-    		else { //incorrect request
-    			theOutput = myThreadName + " received incorrect request - only understand \"Do my action!\"";
-		
-    		}
- 
-     		//Return the output message to the ActionServer
-    		System.out.println(theOutput);
-    		return theOutput;
-    	}	
+		//Return the output message to the ActionServer
+		System.out.println(theOutput);
+		return theOutput;
+	}
 }
 

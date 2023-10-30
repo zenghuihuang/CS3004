@@ -12,6 +12,7 @@ public class ActionClient1 {
         int ActionSocketNumber = 4545;
         String ActionServerName = "localhost";
         String ActionClientID = "ActionClient1";
+        int EntA_queue = 0; // number of vehicles in queue at the entrance A
 
         try {
             ActionClientSocket = new Socket(ActionServerName, ActionSocketNumber);
@@ -37,8 +38,27 @@ public class ActionClient1 {
             
             fromUser = stdIn.readLine();
             if (fromUser != null) {
-                System.out.println(ActionClientID + " sending " + fromUser + " to ActionServer");
-                out.println(fromUser);
+                String message ="";
+                switch (fromUser){
+                    case "New":
+                        System.out.println("New car arriving");
+                        EntA_queue+=1;
+                        System.out.println("queue: "+EntA_queue );
+                        message = "Is there a space?";
+                        System.out.println(ActionClientID + " sending " + message + " to ActionServer");
+                        out.println(message);
+                        break;
+                    case "Enter":
+                        EntA_queue-=1;
+                        System.out.println(ActionClientID + " sending " + fromUser + " to ActionServer");
+                        System.out.println("queue: "+EntA_queue );
+                        out.println(fromUser);
+                    default:
+                        out.println("Error: something wrong happened!");
+
+                }
+
+
             }
             fromServer = in.readLine();
             System.out.println(ActionClientID + " received " + fromServer + " from ActionServer");
