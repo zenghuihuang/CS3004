@@ -37,7 +37,7 @@ public class ActionClient4 {
             
             fromUser = stdIn.readLine();
             if (fromUser != null) {
-                System.out.println(ActionClientID + " sending " + fromUser + " to ActionServer");
+                System.out.println(ActionClientID + " sending " + fromUser.toLowerCase() + " to ActionServer");
                 out.println(fromUser);
             }
             fromServer = in.readLine();

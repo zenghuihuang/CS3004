@@ -2,17 +2,14 @@ import java.net.*;
 import java.io.*;
 
 public class SharedActionState {
-	private static final int Check_space = 0;
-	private static final int Add_car = 1;
-	private static final int Remove_car = 2;
-	private int state = Check_space;
+
+
 	private SharedActionState mySharedObj;
 	private String myThreadName;
 	private int mySharedVariable;
 	private boolean accessing = false; // true a thread has a lock, false otherwise
 	private int threadsWaiting = 0; // number of waiting writers
 
-	private int EntB_queue = 0; // number of vehicles in queue at the entrance B
 
 // Constructor	
 
@@ -54,9 +51,8 @@ public class SharedActionState {
 		System.out.println(myThreadName + " received " + theInput);
 		String theOutput = null;
 		// Check what the client said
-		switch (state) {
-			case Check_space:
-				if (theInput.equalsIgnoreCase("Is there a space?")) {
+		switch (theInput.toLowerCase()) {
+			case "is there a space?":
 					//Correct request
 					if (myThreadName.equals("ActionServerThread1") || myThreadName.equals("ActionServerThread2") ) {
 						if(mySharedVariable>0)
@@ -64,11 +60,10 @@ public class SharedActionState {
 						else{
 							theOutput = "Check space completed. Sorry, there is " + mySharedVariable+" space available";
 						}
-					}
+
 					break;
 				}
-				case Add_car:
-					if (theInput.equalsIgnoreCase("Enter")) {
+			case  ("enter") :
 						if (myThreadName.equals("ActionServerThread1") || myThreadName.equals("ActionServerThread2")) {
 							if (mySharedVariable >0) {
 								mySharedVariable -= 1;
@@ -79,10 +74,15 @@ public class SharedActionState {
 								theOutput = "Sorry, the car park is full at the moment. Car spaces available now = " + mySharedVariable;
 							}
 							}
-						}
 						break;
+			case "exit":
+					if (myThreadName.equals("ActionServerThread3") || myThreadName.equals("ActionServerThread4")) {
+						mySharedVariable += 1;
+						System.out.println(myThreadName + " made the SharedVariable " + mySharedVariable);
+						theOutput = "The car has successfully been removed from the car park.   Car spaces available now = " + mySharedVariable;
+						}
+					break;
 				}
-
 
 		//Return the output message to the ActionServer
 		System.out.println(theOutput);

@@ -52,7 +52,7 @@ public class ActionClient2 {
                         EntB_queue-=1;
                         System.out.println(ActionClientID + " sending " + fromUser + " to ActionServer");
                         System.out.println("queue: "+EntB_queue );
-                        out.println(fromUser);
+                        out.println(fromUser.toLowerCase());
                     default:
                         out.println("Error: something wrong happened!");
 
