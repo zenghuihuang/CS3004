@@ -11,7 +11,7 @@ public class EntA {
         BufferedReader in = null;
         int ActionSocketNumber = 4545;
         String ActionServerName = "localhost";
-        String ActionClientID = "EntA";
+        String ActionClientID = "EntA"; //Entrance A
         int EntA_queue = 0; // number of vehicles in queue at the entrance A
 
         try {

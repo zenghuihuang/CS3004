@@ -11,7 +11,7 @@ public class EntB {
         BufferedReader in = null;
         int ActionSocketNumber = 4545;
         String ActionServerName = "localhost";
-        String ActionClientID = "EntB";
+        String ActionClientID = "EntB"; //Entrance B
         int EntB_queue = 0;
 
         try {
@@ -48,8 +48,8 @@ public class EntB {
                         out.println(message);
                         break;
                     case "enter":
-                        System.out.println(ActionClientID + " sending:  " + message + " to ActionServer");
                         message="Add_car";
+                        System.out.println(ActionClientID + " sending:  " + message + " to ActionServer");
                         out.println(message);
                         break;
                     default:

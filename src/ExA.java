@@ -11,7 +11,7 @@ public class ExA {
         BufferedReader in = null;
         int ActionSocketNumber = 4545;
         String ActionServerName = "localhost";
-        String ActionClientID = "ExA";
+        String ActionClientID = "ExA"; //Exit A
 
         try {
             ActionClientSocket = new Socket(ActionServerName, ActionSocketNumber);
