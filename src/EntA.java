@@ -1,7 +1,7 @@
 import java.io.*;
 import java.net.*;
 
-public class ActionClient4 {
+public class EntA {
     public static void main(String[] args) throws IOException {
 
         // Set up the socket, in and out variables
@@ -11,7 +11,8 @@ public class ActionClient4 {
         BufferedReader in = null;
         int ActionSocketNumber = 4545;
         String ActionServerName = "localhost";
-        String ActionClientID = "ActionClient4";
+        String ActionClientID = "EntA";
+        int EntA_queue = 0; // number of vehicles in queue at the entrance A
 
         try {
             ActionClientSocket = new Socket(ActionServerName, ActionSocketNumber);
@@ -34,14 +35,41 @@ public class ActionClient4 {
         // This is modified as it's the client that speaks first
 
         while (true) {
-            
             fromUser = stdIn.readLine();
             if (fromUser != null) {
-                System.out.println(ActionClientID + " sending " + fromUser.toLowerCase() + " to ActionServer");
-                out.println(fromUser);
+                String message ="";
+                switch (fromUser.toLowerCase().trim()){
+                    case "new":
+                        System.out.println("New car arriving");
+                        EntA_queue+=1;
+                        message = "Check_space";
+                        System.out.println(ActionClientID + " sending:  " + message + " to ActionServer");
+                        out.println(message);
+                        break;
+                    case "enter":
+                        message="Add_car";
+                        System.out.println(ActionClientID + " sending " + message + " to ActionServer");
+                        out.println(message);
+                        break;
+                    default:
+                        System.out.println(ActionClientID + " sending " + fromUser + " to ActionServer");
+                        out.println("Error: something wrong happened!");
+                        break;
+
+                }
+
+
             }
             fromServer = in.readLine();
-            System.out.println(ActionClientID + " received " + fromServer + " from ActionServer");
+
+            System.out.println(ActionClientID + " received : " + fromServer + " from ActionServer" );
+            if(fromServer!=null){
+                if(fromServer.substring(0,31).equalsIgnoreCase("The car entered in the car park")){
+                    EntA_queue-=1;
+                }
+
+            }
+            System.out.println("queue: "+EntA_queue );
         }
             
         

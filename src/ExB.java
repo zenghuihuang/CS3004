@@ -1,7 +1,7 @@
 import java.io.*;
 import java.net.*;
 
-public class ActionClient1 {
+public class ExB {
     public static void main(String[] args) throws IOException {
 
         // Set up the socket, in and out variables
@@ -11,8 +11,7 @@ public class ActionClient1 {
         BufferedReader in = null;
         int ActionSocketNumber = 4545;
         String ActionServerName = "localhost";
-        String ActionClientID = "ActionClient1";
-        int EntA_queue = 0; // number of vehicles in queue at the entrance A
+        String ActionClientID = "ExB";
 
         try {
             ActionClientSocket = new Socket(ActionServerName, ActionSocketNumber);
@@ -35,33 +34,20 @@ public class ActionClient1 {
         // This is modified as it's the client that speaks first
 
         while (true) {
+            
             fromUser = stdIn.readLine();
             if (fromUser != null) {
-                String message ="";
-                switch (fromUser.toLowerCase().trim()){
-                    case "new":
-                        System.out.println("New car arriving");
-                        EntA_queue+=1;
-                        System.out.println("queue: "+EntA_queue );
-                        message = "Is there a space?";
-                        System.out.println(ActionClientID + " sending " + message + " to ActionServer");
-                        out.println(message.toLowerCase());
-                        break;
-                    case "enter":
-                        EntA_queue-=1;
-                        System.out.println(ActionClientID + " sending " + fromUser + " to ActionServer");
-                        System.out.println("queue: "+EntA_queue );
-                        out.println(fromUser.toLowerCase());
-                    default:
-                        System.out.println("what is going on?" );
-                        out.println("Error: something wrong happened!");
-
+                if(fromUser.equalsIgnoreCase("exit")){
+                    String message = "Remove_car";
+                    System.out.println(ActionClientID + " sending : " + message + " to ActionServer");
+                    out.println(message);
+                }else{
+                    System.out.println(ActionClientID + " : exit is the only action allowed.");
                 }
-
 
             }
             fromServer = in.readLine();
-            System.out.println(ActionClientID + " received " + fromServer + " from ActionServer");
+            System.out.println(ActionClientID + " received :  " + fromServer + " from ActionServer");
         }
             
         

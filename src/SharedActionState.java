@@ -52,7 +52,7 @@ public class SharedActionState {
 		String theOutput = null;
 		// Check what the client said
 		switch (theInput.toLowerCase()) {
-			case "is there a space?":
+			case "check_space":
 					//Correct request
 					if (myThreadName.equals("ActionServerThread1") || myThreadName.equals("ActionServerThread2") ) {
 						if(mySharedVariable>0)
@@ -63,19 +63,21 @@ public class SharedActionState {
 
 					break;
 				}
-			case  ("enter") :
+			case  "add_car" :
 						if (myThreadName.equals("ActionServerThread1") || myThreadName.equals("ActionServerThread2")) {
 							if (mySharedVariable >0) {
 								mySharedVariable -= 1;
 								System.out.println(myThreadName + " made the SharedVariable " + mySharedVariable);
-								theOutput = "Car park action completed.   Car spaces available now = " + mySharedVariable;
+								theOutput = "The car entered in the car park.   Car spaces available now = " + mySharedVariable;
 								}else{
 								System.out.println(myThreadName + ": Impossible to enter the car park.");
-								theOutput = "Sorry, the car park is full at the moment. Car spaces available now = " + mySharedVariable;
+								theOutput = "Sorry, the car cannot be parked here. Car spaces available now = " + mySharedVariable;
 							}
-							}
+							}else{
+							theOutput=myThreadName+" not allowed.";
+						}
 						break;
-			case "exit":
+			case "remove_car":
 					if (myThreadName.equals("ActionServerThread3") || myThreadName.equals("ActionServerThread4")) {
 						mySharedVariable += 1;
 						System.out.println(myThreadName + " made the SharedVariable " + mySharedVariable);

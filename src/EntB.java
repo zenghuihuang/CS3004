@@ -1,7 +1,7 @@
 import java.io.*;
 import java.net.*;
 
-public class ActionClient2 {
+public class EntB {
     public static void main(String[] args) throws IOException {
 
         // Set up the socket, in and out variables
@@ -11,7 +11,7 @@ public class ActionClient2 {
         BufferedReader in = null;
         int ActionSocketNumber = 4545;
         String ActionServerName = "localhost";
-        String ActionClientID = "ActionClient2";
+        String ActionClientID = "EntB";
         int EntB_queue = 0;
 
         try {
@@ -43,22 +43,30 @@ public class ActionClient2 {
                     case "new":
                         System.out.println("New car arriving");
                         EntB_queue+=1;
-                        System.out.println("queue: "+EntB_queue );
-                        message = "Is there a space?";
-                        System.out.println(ActionClientID + " sending " + message + " to ActionServer");
+                        message = "Check_space";
+                        System.out.println(ActionClientID + " sending:  " + message + " to ActionServer");
                         out.println(message);
                         break;
                     case "enter":
-                        EntB_queue-=1;
-                        System.out.println(ActionClientID + " sending " + fromUser + " to ActionServer");
-                        System.out.println("queue: "+EntB_queue );
-                        out.println(fromUser.toLowerCase());
+                        System.out.println(ActionClientID + " sending:  " + message + " to ActionServer");
+                        message="Add_car";
+                        out.println(message);
+                        break;
                     default:
+                        System.out.println(ActionClientID + " sending:  " + fromUser + " to ActionServer");
                         out.println("Error: something wrong happened!");
+                        break;
 
                 }
             }
             fromServer = in.readLine();
+            if(fromServer!=null){
+                if(fromServer.substring(0,31).equalsIgnoreCase("The car entered in the car park")){
+                    EntB_queue-=1;
+                }
+
+            }
+            System.out.println("queue: "+EntB_queue );
             System.out.println(ActionClientID + " received " + fromServer + " from ActionServer");
         }
             
