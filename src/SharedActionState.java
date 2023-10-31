@@ -56,7 +56,7 @@ public class SharedActionState {
 					//Correct request
 					if (myThreadName.equals("ActionServerThread1") || myThreadName.equals("ActionServerThread2") ) {
 						if(mySharedVariable>0)
-						   theOutput = "Check space completed. Yes, there is a space. Shared Variable now = " + mySharedVariable;
+						   theOutput = "Check space completed. Yes, there is a space. Car spaces available now = " + mySharedVariable;
 						else{
 							theOutput = "Check space completed. Sorry, there is " + mySharedVariable+" space available";
 						}
