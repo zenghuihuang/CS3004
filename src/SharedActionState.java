@@ -52,23 +52,23 @@ public class SharedActionState {
 			case "check_space":
 					//Correct request
 					if (myThreadName.equals("ActionServerThread1") || myThreadName.equals("ActionServerThread2") ) {
-						if(Car_spaces >0)
-						   theOutput = "Check space completed. Yes, there is a space. Car spaces available now = " + Car_spaces;
+						if(Car_spaces !=5)
+						   theOutput = "Check space completed. Yes, there is a space. Car spaces available now = " +(5-Car_spaces) ;
 						else{
-							theOutput = "Check space completed. Sorry, there is " + Car_spaces +" space available";
+							theOutput = "Check space completed. Sorry, there is " + (5-Car_spaces) +" space available";
 						}
 
 					break;
 				}
 			case  "add_car" :
 						if (myThreadName.equals("ActionServerThread1") || myThreadName.equals("ActionServerThread2")) {
-							if (Car_spaces >0) {
-								Car_spaces -= 1;
-								System.out.println(myThreadName + " made the SharedVariable " + Car_spaces);
-								theOutput = "The car entered in the car park.   Car spaces available now = " + Car_spaces;
+							if (Car_spaces != 5) {
+								Car_spaces += 1;
+								System.out.println(myThreadName + " N. of cars in the car park: " + Car_spaces);
+								theOutput = "The car entered in the car park.   Car spaces available now = " + (5-Car_spaces);
 								}else{
 								System.out.println(myThreadName + ": Impossible to enter the car park.");
-								theOutput = "Sorry, the car cannot be parked here. Car spaces available now = " + Car_spaces;
+								theOutput = "Sorry, the car cannot be parked here. Car spaces available now = " + (5-Car_spaces);
 							}
 							}else{
 							theOutput=myThreadName+" not allowed.";
@@ -76,10 +76,10 @@ public class SharedActionState {
 						break;
 			case "remove_car":
 					if (myThreadName.equals("ActionServerThread3") || myThreadName.equals("ActionServerThread4")) {
-						if(Car_spaces <5){
-							Car_spaces += 1;
-							System.out.println(myThreadName + " made the SharedVariable " + Car_spaces);
-							theOutput = "The car has successfully been removed from the car park.   Car spaces available now = " + Car_spaces;
+						if(Car_spaces >=1){
+							Car_spaces -= 1;
+							System.out.println(myThreadName + " N. of cars in the car park:  " + Car_spaces);
+							theOutput = "The car has successfully been removed from the car park.   Car spaces available now = " + (5-Car_spaces);
 						}else{
 							theOutput="Action not allowed: Empty car park.";
 						}

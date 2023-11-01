@@ -13,7 +13,7 @@ public class ActionServer {
     String ActionServerName = "ActionServer";
     int ActionServerNumber = 4545;
     
-    int SharedVariable = 5;
+    int SharedVariable = 0;// number of cars in the car park
 
     //Create the shared object in the global scope...
     
