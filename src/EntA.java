@@ -63,7 +63,7 @@ public class EntA {
             fromServer = in.readLine();
 
             System.out.println(ActionClientID + " received : " + fromServer + " from ActionServer" );
-            if(fromServer!=null){
+            if(fromServer!=null && fromUser.equalsIgnoreCase("enter")){
                 if(fromServer.substring(0,31).equalsIgnoreCase("The car entered in the car park")){
                     EntA_queue-=1;
                 }
