@@ -5,7 +5,6 @@ public class EntA {
     public static void main(String[] args) throws IOException {
 
         // Set up the socket, in and out variables
-
         Socket ActionClientSocket = null;
         PrintWriter out = null;
         BufferedReader in = null;

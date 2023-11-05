@@ -60,6 +60,7 @@ public class EntB {
                 }
             }
             fromServer = in.readLine();
+            System.out.println(ActionClientID + " received " + fromServer + " from ActionServer");
             if(fromServer!=null){
                 if(fromServer.substring(0,31).equalsIgnoreCase("The car entered in the car park")){
                     EntB_queue-=1;
@@ -67,7 +68,7 @@ public class EntB {
 
             }
             System.out.println("queue: "+EntB_queue );
-            System.out.println(ActionClientID + " received " + fromServer + " from ActionServer");
+
         }
             
         

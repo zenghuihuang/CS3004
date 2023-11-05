@@ -7,20 +7,14 @@ import java.io.*;
 
 public class ActionServer {
   public static void main(String[] args) throws IOException {
-
 	ServerSocket ActionServerSocket = null;
     boolean listening = true;
     String ActionServerName = "ActionServer";
     int ActionServerNumber = 4545;
-    
     int SharedVariable = 0;// number of cars in the car park
-
     //Create the shared object in the global scope...
-    
     SharedActionState ourSharedActionStateObject = new SharedActionState(SharedVariable);
-        
     // Make the server socket
-
     try {
       ActionServerSocket = new ServerSocket(ActionServerNumber);
     } catch (IOException e) {
