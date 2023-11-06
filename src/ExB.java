@@ -9,7 +9,7 @@ public class ExB {
         Socket ActionClientSocket = null;
         PrintWriter out = null;
         BufferedReader in = null;
-        int ActionSocketNumber = 4545;
+        int ActionSocketNumber = 4546;
         String ActionServerName = "localhost";
         String ActionClientID = "ExB";//Exit B
 

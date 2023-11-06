@@ -10,7 +10,7 @@ public class ActionServer {
 	ServerSocket ActionServerSocket = null;
     boolean listening = true;
     String ActionServerName = "ActionServer";
-    int ActionServerNumber = 4545;
+    int ActionServerNumber = 4546;
     int SharedVariable = 0;// number of cars in the car park
     //Create the shared object in the global scope...
     SharedActionState ourSharedActionStateObject = new SharedActionState(SharedVariable);

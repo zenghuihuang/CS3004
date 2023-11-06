@@ -8,7 +8,7 @@ public class EntA {
         Socket ActionClientSocket = null;
         PrintWriter out = null;
         BufferedReader in = null;
-        int ActionSocketNumber = 4545;
+        int ActionSocketNumber = 4546;
         String ActionServerName = "localhost";
         String ActionClientID = "EntA"; //Entrance A
         int EntA_queue = 0; // number of vehicles in queue at the entrance A
